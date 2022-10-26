@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="zad" />
         <module name="StarterProject" />
+        <module name="mkw_czw_1545_06" />
       </profile>
     </annotationProcessing>
   </component>

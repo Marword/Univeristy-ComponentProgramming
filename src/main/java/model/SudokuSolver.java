@@ -1,6 +1,6 @@
 package model;
 
 public interface SudokuSolver {
-    boolean solve(SudokuBoard grid);
+    boolean solve(SudokuBoard board);
 
 }
