@@ -1,4 +1,0 @@
-# Created at 2022-10-20T16:56:43.088
-Boot Manifest-JAR contains absolute paths in classpath 'D:\5_sem\prokom\zad\target\test-classes'
-Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
-

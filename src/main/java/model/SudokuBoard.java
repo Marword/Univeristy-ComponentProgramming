@@ -10,38 +10,41 @@ public class SudokuBoard {
     private final int boxSize = 3;
     private List<Integer> randomizuje = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
-    private int[][] grid = new int[size][size];
+    private final int[][] grid = new int[size][size];
 
     public SudokuBoard() {
     }
 
-    public final int[][] copyArr() {
-        int[][] cboard = new int[size][];
+    private boolean isValidInRow(int rowNumber, int numberToInsert) {
+        //Sprawdzanie wiersza, czy można podaną liczę dać do niego
         for (int i = 0; i < size; i++) {
-            cboard[i] = Arrays.copyOf(grid[i], size);
+            if (numberToInsert == grid[rowNumber][i]) {
+                return false;
+            }
         }
-        return cboard;
+        return true;
     }
 
-    public boolean isValid(int row, int col, int value) {
-        //row check
+    private boolean isValidInColumn(int columnNumber, int numberToInsert) {
+        //Sprawdzanie kolumny, czy można podaną liczę dać do niego
         for (int i = 0; i < size; i++) {
-            if (value == grid[row][i]) {
+            if (numberToInsert == grid[i][columnNumber]) {
                 return false;
             }
         }
-        //column check
-        for (int i = 0; i < size; i++) {
-            if (value == grid[i][col]) {
-                return false;
-            }
-        }
-        //box check
-        int boxRow = row - row % 3;
-        int boxCol = col - col % 3;
-        for (int i = boxRow; i < boxRow + 3; i++) {
-            for (int j = boxCol; j < boxCol + 3; j++) {
-                if (value == grid[i][j]) {
+        return true;
+    }
+
+    private boolean isValidInBox(int columnNumber, int rowNumber, int numberToInsert) {
+        //Sprawdzanie boxa, czy można podaną liczbę można dać do niego
+        int boxRowIndex = rowNumber / (size / 3);
+        int boxColumnIndex = columnNumber / (size / 3);
+
+        for (int i = 0; i < (size / 3); i++) {
+            for (int j = 0; j < (size / 3); j++) {
+                int boxRow = i + boxRowIndex * 3;
+                int boxColumn = j + boxColumnIndex * 3;
+                if (grid[boxRow][boxColumn] == numberToInsert) {
                     return false;
                 }
             }
@@ -49,7 +52,21 @@ public class SudokuBoard {
         return true;
     }
 
+    public boolean isValid(int rowNumber, int columnNumber, int numberToInsert) {
+        return isValidInBox(columnNumber, rowNumber, numberToInsert)
+                && isValidInRow(rowNumber, numberToInsert)
+                && isValidInColumn(columnNumber, numberToInsert);
+    }
+
     //backtracking solving(filling array)
+    private void shuffleArray(Integer[] currentGuidingRow) {
+
+        List<Integer> guidingList = Arrays.asList(currentGuidingRow);
+        Collections.shuffle(guidingList);
+        guidingList.toArray(currentGuidingRow);
+    }
+
+
     public boolean fillBoard() {
         Collections.shuffle(randomizuje);
         int[] tmp = new int[randomizuje.size()];
@@ -77,20 +94,42 @@ public class SudokuBoard {
     }
 
     //wypisanei tablicy zeby sprawdzic
-    public final void printArr() {
-        for (int[] row : grid) {
-            for (int col : row) {
-                System.out.print(col + " ");
+    public void clearBoard() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                grid[i][j] = 0;
+            }
+        }
+    }
+
+    public void newBoard() {
+        clearBoard();
+        fillBoard();
+    }
+
+    public void printBoard() {
+        System.out.println("************");
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                System.out.print(grid[i][j] + " ");
             }
             System.out.println();
         }
-        System.out.println();
+        System.out.println("************");
+    }
+
+    public int[][] copyBoard() {
+        int[][] copiedBoard = new int[size][];
+        for (int i = 0; i < size; i++) {
+            copiedBoard[i] = Arrays.copyOf(grid[i], size);
+        }
+        return copiedBoard;
     }
 
     public static void main(String[] args) {
         SudokuBoard sudoku = new SudokuBoard();
         sudoku.fillBoard();
-        sudoku.printArr();
+        sudoku.printBoard();
     }
 
 }
