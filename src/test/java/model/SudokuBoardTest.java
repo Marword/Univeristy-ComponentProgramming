@@ -32,5 +32,18 @@ class SudokuBoardTest {
 
     }
 
+    @Test
+    public void copyBoardTest() {
+        int[][] board1 = sudo_board.copyBoard();
+        int[][] board2 = sudo_board.copyBoard();
+        assertTrue(Arrays.deepEquals(board1, board2));
+    }
+
+    @Test
+    public void getSetTest(){
+        sudo_board.set(1,1,2);
+        assertEquals(sudo_board.get(1,1), 2);
+    }
+
 
 }
