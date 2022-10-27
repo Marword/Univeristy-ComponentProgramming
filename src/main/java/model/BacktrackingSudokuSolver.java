@@ -4,14 +4,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class BacktrackingSudokuSolver implements SudokuSolver{
+public class BacktrackingSudokuSolver implements SudokuSolver {
 
-    private List<Integer> randomizuje = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    private final List<Integer> numberShuffle = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
     public boolean solve(SudokuBoard board) {
-        Collections.shuffle(randomizuje);
-        int[] tmp = new int[randomizuje.size()];
-        for (int i = 0; i < randomizuje.size(); i++) {
-            tmp[i] = randomizuje.get(i);
+        Collections.shuffle(numberShuffle);
+        int[] tmp = new int[numberShuffle.size()];
+        for (int i = 0; i < numberShuffle.size(); i++) {
+            tmp[i] = numberShuffle.get(i);
         }
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
@@ -32,8 +33,9 @@ public class BacktrackingSudokuSolver implements SudokuSolver{
         }
         return true;
     }
+
     private boolean isValidInRow(int rowNumber, int numberToInsert, final SudokuBoard board) {
-        //Sprawdzanie wiersza, czy można podaną liczę dać do niego
+        //Sprawdzanie wiersza, czy można podaną liczbę dać do niego
         for (int i = 0; i < 9; i++) {
             if (numberToInsert == board.get(rowNumber,i)) {
                 return false;
@@ -42,8 +44,9 @@ public class BacktrackingSudokuSolver implements SudokuSolver{
         return true;
     }
 
-    private boolean isValidInColumn(int columnNumber, int numberToInsert,final SudokuBoard board) {
-        //Sprawdzanie kolumny, czy można podaną liczę dać do niego
+    private boolean isValidInColumn(int columnNumber, int numberToInsert,
+                                    final SudokuBoard board) {
+        //Sprawdzanie kolumny, czy można podaną liczbę dać do niej
         for (int i = 0; i < 9; i++) {
             if (numberToInsert == board.get(i,columnNumber)) {
                 return false;
@@ -52,8 +55,9 @@ public class BacktrackingSudokuSolver implements SudokuSolver{
         return true;
     }
 
-    private boolean isValidInBox(int columnNumber, int rowNumber, int numberToInsert,final SudokuBoard board) {
-        //Sprawdzanie boxa, czy można podaną liczbę można dać do niego
+    private boolean isValidInBox(int columnNumber, int rowNumber, int numberToInsert,
+                                 final SudokuBoard board) {
+        //Sprawdzanie boxa, czy można podaną liczbę dać do niego
         int boxRowIndex = rowNumber / (9 / 3);
         int boxColumnIndex = columnNumber / (9 / 3);
 
@@ -69,7 +73,8 @@ public class BacktrackingSudokuSolver implements SudokuSolver{
         return true;
     }
 
-    public boolean isValid(int rowNumber, int columnNumber, int numberToInsert,final SudokuBoard board) {
+    public boolean isValid(int rowNumber, int columnNumber, int numberToInsert,
+                           final SudokuBoard board) {
         return isValidInBox(columnNumber, rowNumber, numberToInsert, board)
                 && isValidInRow(rowNumber, numberToInsert, board)
                 && isValidInColumn(columnNumber, numberToInsert, board);
