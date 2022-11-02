@@ -1,5 +1,7 @@
 package model;
 
+import model.exceptions.BacktrackingSudokuSolver;
+
 import java.util.Arrays;
 
 public class SudokuBoard {

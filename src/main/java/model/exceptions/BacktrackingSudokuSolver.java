@@ -1,4 +1,7 @@
-package model;
+package model.exceptions;
+
+import model.SudokuBoard;
+import model.SudokuSolver;
 
 import java.util.Arrays;
 import java.util.Collections;
