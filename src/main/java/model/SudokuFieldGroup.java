@@ -1,5 +1,7 @@
 package model;
 
+import model.exceptions.SizeException;
+
 public abstract class SudokuFieldGroup {
 
     public static final int SIZE = 0;
