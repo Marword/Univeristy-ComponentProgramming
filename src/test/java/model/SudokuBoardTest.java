@@ -28,19 +28,32 @@ class SudokuBoardTest {
 
 
     @Test
+    public void checkBoardRowTest() {
+        assertFalse(sudo_board.checkRow(1));
+        sudo_board.solveGame();
+        assertTrue(sudo_board.checkRow(1));
+
+    }
+
+    @Test
+    public void checkBoardColumnTest() {
+        assertFalse(sudo_board.checkColumn(1));
+        sudo_board.solveGame();
+        assertTrue(sudo_board.checkColumn(1));
+
+    }
+
+    @Test
+    public void checkBoardBoxTest() {
+        assertFalse(sudo_board.checkBox(1, 1));
+        sudo_board.solveGame();
+        assertTrue(sudo_board.checkBox(1, 1));
+
+    }
+
+    @Test
     public void checkBoardTest() {
         assertFalse(sudo_board.checkBoard());
-        for (int i=0; i< sudo_board.size; i++) {
-            sudo_board.set(i, 0, i+1);
-        }
-        assertFalse(sudo_board.checkBoard());
-        for (int i=0; i< sudo_board.size; i++) {
-            sudo_board.set(0, i, i+1);
-        }
-        assertFalse(sudo_board.checkBoard());
-    }
-    @Test
-    public void checkFullBoardTest() {
         sudo_board.solveGame();
         assertTrue(sudo_board.checkBoard());
     }

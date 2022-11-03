@@ -32,9 +32,7 @@ public class SudokuBoard {
 
     public SudokuRow getRow(int row) {
         SudokuField[] fields = new SudokuField[SudokuFieldGroup.size];
-        for (int i = 0; i < size; i++) {
-            fields[i] = board[row][i];
-        }
+        System.arraycopy(board[row], 0, fields, 0, size);
 
         return new SudokuRow(fields);
     }
@@ -64,56 +62,79 @@ public class SudokuBoard {
         sudokuSolver.solve(this);
     }
 
-    public boolean checkBoard() {
-        int rep;
-        //sprawdzanie wierszy
-        for (int i = 0; i < 9; i++) {
-            rep = 0;
-            for (int j = 0; j < 9; j++) {
-                for (int num = 1; num < 10; num++) {
-                    if (board[i][j].getFieldValue() == num) {
-                        rep++;
-                    }
+    public boolean checkRow(int row) {
+        int rep = 0;
+        for (int j = 0; j < 9; j++) {
+            for (int num = 1; num < 10; num++) {
+                if (board[row][j].getFieldValue() == num) {
+                    rep++;
                 }
-            }
-            if (rep != 9) {
-                return false;
             }
         }
+        if (rep != 9) {
+            return false;
+        }
+        return true;
+    }
 
-        //sprawdzanie kolumn
-        for (int i = 0; i < 9; i++) {
-            rep = 0;
-            for (int j = 0; j < 9; j++) {
+    public boolean checkColumn(int col) {
+        int rep = 0;
+        for (int j = 0; j < 9; j++) {
+            for (int num = 1; num < 10; num++) {
+                if (board[j][col].getFieldValue() == num) {
+                    rep++;
+                }
+            }
+        }
+        if (rep != 9) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkBox(int rowIndex, int colIndex) {
+        int rep = 0;
+        for (int rowCheck = 0; rowCheck < 3; rowCheck++) {
+            for (int colCheck = 0; colCheck < 3; colCheck++) {
                 for (int num = 1; num < 10; num++) {
-                    if (board[j][i].getFieldValue() == num) {
+                    if (board[rowIndex * 3 + rowCheck][colIndex * 3 + colCheck].getFieldValue()
+                            == num) {
                         rep++;
                     }
                 }
+
             }
-            if (rep != 9) {
-                return false;
+        }
+        if (rep != 9) {
+            return false;
+        }
+        return true;
+
+    }
+
+    public boolean checkBoard() {
+        int rep = 0;
+        for (int i = 0; i < 9; i++) {
+            if (checkRow(i)) {
+                rep++;
+            }
+            if (checkColumn(i)) {
+                rep++;
             }
         }
 
         //sprawdzanie małych kwadratów
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                rep = 0;
-                for (int rowCheck = 0; rowCheck < 3; rowCheck++) {
-                    for (int colCheck = 0; colCheck < 3; colCheck++) {
-                        for (int num = 1; num < 10; num++) {
-                            if (board[i * 3 + rowCheck][j * 3 + colCheck].getFieldValue() == num) {
-                                rep++;
-                            }
-                        }
-
-                    }
-                }
-                if (rep != 9) {
-                    return false;
+                if (checkBox(i, j)) {
+                    rep++;
                 }
             }
+
+        }
+
+        if (rep != 27) {
+            return false;
         }
         return true;
     }
