@@ -38,6 +38,9 @@ class SudokuBoardTest {
             sudo_board.set(0, i, i+1);
         }
         assertFalse(sudo_board.checkBoard());
+    }
+    @Test
+    public void checkFullBoardTest() {
         sudo_board.solveGame();
         assertTrue(sudo_board.checkBoard());
     }

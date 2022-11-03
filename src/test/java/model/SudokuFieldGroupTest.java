@@ -2,13 +2,9 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import model.field.SudokuColumn;
 import model.field.SudokuRow;
-import model.exceptions.SizeException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 class SudokuFieldGroupTest {
 
@@ -29,7 +25,7 @@ class SudokuFieldGroupTest {
 
     @Test
     public void verifyInvalidTest() {
-        SudokuRow sudokuRow = new SudokuRow(new SudokuField[]{
+        SudokuColumn sudokuColumn = new SudokuColumn(new SudokuField[]{
                 new SudokuField(2),
                 new SudokuField(2),
                 new SudokuField(3),
@@ -39,7 +35,7 @@ class SudokuFieldGroupTest {
                 new SudokuField(7),
                 new SudokuField(8),
                 new SudokuField(9)});
-        assertFalse(sudokuRow.verify());
+        assertFalse(sudokuColumn.verify());
     }
 
 
