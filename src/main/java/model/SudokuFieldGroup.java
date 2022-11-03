@@ -4,11 +4,11 @@ import model.exceptions.SizeException;
 
 public abstract class SudokuFieldGroup {
 
-    public static final int SIZE = 0;
+    public static final int size = 9;
     protected SudokuField[] fields;
 
     public SudokuFieldGroup(final SudokuField[] fields) {
-        if (fields.length != SIZE) {
+        if (fields.length != size) {
             throw new SizeException("Length must be 9.");
         }
         this.fields = fields;

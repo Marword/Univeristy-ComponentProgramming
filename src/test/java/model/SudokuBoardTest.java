@@ -9,21 +9,51 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuBoardTest {
     private SudokuBoard sudo_board;
-    private SudokuBoard sudo_board1;
 
 
     @BeforeEach
     void startup() {
-        sudo_board = new SudokuBoard();
-        sudo_board.solveGame();
-        sudo_board1 = new SudokuBoard();
-        sudo_board1.solveGame();
+        sudo_board = new SudokuBoard(new BacktrackingSudokuSolver());
+
     }
     @Test
     void different_arrangements() {
+        SudokuBoard sudo_board1 = new SudokuBoard(new BacktrackingSudokuSolver());
+        sudo_board.solveGame();
+        sudo_board1.solveGame();
         int[][] board1 = sudo_board.copyBoard();
         int[][] board2 = sudo_board1.copyBoard();
         assertFalse(Arrays.deepEquals(board1, board2));
+    }
+
+
+    @Test
+    public void checkBoardTest() {
+        assertFalse(sudo_board.checkBoard());
+        sudo_board.solveGame();
+        assertTrue(sudo_board.checkBoard());
+    }
+
+    @Test
+    public void getSetMethodsTest() {
+        assertEquals(sudo_board.get(0, 0), 0);
+        sudo_board.set(0, 0, 5);
+        assertEquals(sudo_board.get(0, 0), 5);
+    }
+
+    @Test
+    public void getRowTest() {
+        assertNotNull(sudo_board.getRow(2));
+    }
+
+    @Test
+    public void getColumnTest() {
+        assertNotNull(sudo_board.getColumn(2));
+    }
+
+    @Test
+    public void getBoxTest() {
+        assertNotNull(sudo_board.getBox(1, 1));
     }
 
 

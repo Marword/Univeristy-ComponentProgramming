@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Arrays;
 import model.field.SudokuBox;
 import model.field.SudokuColumn;
 import model.field.SudokuRow;
@@ -10,53 +9,55 @@ public class SudokuBoard {
 
     public final int size = 9;
     private final SudokuSolver sudokuSolver;
-    private final int[][] board = new int[size][size];
+    private final SudokuField[][] board = new SudokuField[size][size];
 
 
-    public SudokuBoard() {
-        this.sudokuSolver = new BacktrackingSudokuSolver();
+    public SudokuBoard(SudokuSolver solver) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                this.board[i][j] = new SudokuField();
+            }
+        }
+
+        this.sudokuSolver = solver;
     }
 
-    public int get(int x, int y) {
-        return board[x][y];
+    public int get(int i, int j) {
+        return board[i][j].getFieldValue();
+    }
+
+    public void set(int i, int j, int value) {
+        this.board[i][j].setFieldValue(value);
     }
 
     public SudokuRow getRow(int row) {
-        //SudokuRow row = new Sud
-        SudokuField[] fields = new SudokuField[size];
+        SudokuField[] fields = new SudokuField[SudokuFieldGroup.size];
         for (int i = 0; i < size; i++) {
-            fields[i].setFieldValue(get(row, i));
+            fields[i] = board[row][i];
         }
 
-        //return row;
         return new SudokuRow(fields);
     }
 
     public SudokuColumn getColumn(int col) {
-        SudokuField[] fields = new SudokuField[size];
+        SudokuField[] fields = new SudokuField[SudokuFieldGroup.size];
 
         for (int i = 0; i < size; i++) {
-            fields[i].setFieldValue(get(i, col));
+            fields[i] = board[i][col];
         }
         return new SudokuColumn(fields);
     }
 
     public SudokuBox getBox(int row, int col) {
-        SudokuField[] fields = new SudokuField[size];
-        int x = row - row % 3;
-        int y = col - col % 3;
-        int z = 0;
-        for (int i = x; i < x + 3; i++) {
-            for (int j = y; j < y + 3; j++) {
-                fields[z++].setFieldValue(get(i, j));
+        SudokuField[] fields = new SudokuField[SudokuFieldGroup.size];
+        int index = 0;
+        for (int i = 0; i < SudokuBox.BOX_SIZE; i++) {
+            for (int j = 0; j < SudokuBox.BOX_SIZE; j++) {
+                fields[index++] = board[row * 3 + i][col * 3 + j];
             }
         }
+
         return new SudokuBox(fields);
-    }
-
-
-    public void set(int x, int y, int value) {
-        this.board[x][y] = value;
     }
 
     public void solveGame() {
@@ -70,7 +71,7 @@ public class SudokuBoard {
             rep = 0;
             for (int j = 0; j < 9; j++) {
                 for (int num = 1; num < 10; num++) {
-                    if (board[i][j] == num) {
+                    if (board[i][j].getFieldValue() == num) {
                         rep++;
                     }
                 }
@@ -85,7 +86,7 @@ public class SudokuBoard {
             rep = 0;
             for (int j = 0; j < 9; j++) {
                 for (int num = 1; num < 10; num++) {
-                    if (board[j][i] == num) {
+                    if (board[j][i].getFieldValue() == num) {
                         rep++;
                     }
                 }
@@ -102,7 +103,7 @@ public class SudokuBoard {
                 for (int rowCheck = 0; rowCheck < 3; rowCheck++) {
                     for (int colCheck = 0; colCheck < 3; colCheck++) {
                         for (int num = 1; num < 10; num++) {
-                            if (board[i * 3 + rowCheck][j * 3 + colCheck] == num) {
+                            if (board[i * 3 + rowCheck][j * 3 + colCheck].getFieldValue() == num) {
                                 rep++;
                             }
                         }
@@ -118,9 +119,11 @@ public class SudokuBoard {
     }
 
     public int[][] copyBoard() {
-        int[][] copiedBoard = new int[size][];
+        int[][] copiedBoard = new int[size][size];
         for (int i = 0; i < size; i++) {
-            copiedBoard[i] = Arrays.copyOf(board[i], size);
+            for (int j = 0; j < size; j++) {
+                copiedBoard[i][j] = board[i][j].getFieldValue();
+            }
         }
         return copiedBoard;
     }
