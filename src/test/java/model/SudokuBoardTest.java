@@ -30,6 +30,14 @@ class SudokuBoardTest {
     @Test
     public void checkBoardTest() {
         assertFalse(sudo_board.checkBoard());
+        for (int i=0; i< sudo_board.size; i++) {
+            sudo_board.set(i, 0, i+1);
+        }
+        assertFalse(sudo_board.checkBoard());
+        for (int i=0; i< sudo_board.size; i++) {
+            sudo_board.set(0, i, i+1);
+        }
+        assertFalse(sudo_board.checkBoard());
         sudo_board.solveGame();
         assertTrue(sudo_board.checkBoard());
     }
