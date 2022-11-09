@@ -1,29 +1,22 @@
 package model;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.Random;
 
 public class BacktrackingSudokuSolver implements SudokuSolver {
 
-    private final List<Integer> numberShuffle = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-
     public boolean solve(SudokuBoard board) {
-        Collections.shuffle(numberShuffle);
-        int[] tmp = new int[numberShuffle.size()];
-        for (int i = 0; i < numberShuffle.size(); i++) {
-            tmp[i] = numberShuffle.get(i);
-        }
+        Random rand = new Random();
+
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
-                if (0 == board.get(row,col)) {
+                if (0 == board.get(row, col)) {
                     for (int x = 0; x <= 8; x++) {
-                        if (isValid(row, col, tmp[x], board)) {
-                            board.set(row,col,tmp[x]);
+                        if (isValid(row, col, rand.nextInt(9) + 1, board)) {
+                            board.set(row, col, rand.nextInt(9) + 1);
                             if (solve(board)) {
                                 return true;
                             } else {
-                                board.set(row,col, 0);
+                                board.set(row, col, 0);
                             }
                         }
                     }
@@ -37,7 +30,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
     private boolean isValidInRow(int rowNumber, int numberToInsert, final SudokuBoard board) {
         //Sprawdzanie wiersza, czy można podaną liczbę dać do niego
         for (int i = 0; i < 9; i++) {
-            if (numberToInsert == board.get(rowNumber,i)) {
+            if (numberToInsert == board.get(rowNumber, i)) {
                 return false;
             }
         }
@@ -48,7 +41,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
                                     final SudokuBoard board) {
         //Sprawdzanie kolumny, czy można podaną liczbę dać do niej
         for (int i = 0; i < 9; i++) {
-            if (numberToInsert == board.get(i,columnNumber)) {
+            if (numberToInsert == board.get(i, columnNumber)) {
                 return false;
             }
         }
@@ -65,7 +58,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
             for (int j = 0; j < (9 / 3); j++) {
                 int boxRow = i + boxRowIndex * 3;
                 int boxColumn = j + boxColumnIndex * 3;
-                if (board.get(boxRow,boxColumn) == numberToInsert) {
+                if (board.get(boxRow, boxColumn) == numberToInsert) {
                     return false;
                 }
             }
