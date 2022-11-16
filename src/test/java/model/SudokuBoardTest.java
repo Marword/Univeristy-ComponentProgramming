@@ -101,14 +101,10 @@ class SudokuBoardTest {
     void equalsTest() {
 
        assertTrue(sudo_board.equals(sudo_board));
-
        assertFalse(sudo_board.equals(null));
-
-        sudo_board2.solveGame();
-        assertEquals(sudo_board.equals(sudo_board2),sudo_board2.equals(sudo_board));
-        sudo_board2.set(1,1,3);
-        sudo_board.set(1,1,1);
-        assertFalse(sudo_board.equals(sudo_board2));
+       sudo_board2.solveGame();
+       assertFalse(sudo_board.equals(sudo_board2));
+       assertEquals(sudo_board.equals(sudo_board2),sudo_board2.equals(sudo_board));
 
     }
 
