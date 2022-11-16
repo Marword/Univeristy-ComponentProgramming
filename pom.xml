@@ -36,6 +36,13 @@
             <version>5.9.0</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -174,5 +181,12 @@
             </plugin>
         </plugins>
     </reporting>
+
+    <licenses>
+        <license>
+            <name>GNU GENERAL PUBLIC LICENSE</name>
+            <url>https://www.gnu.org/licenses/gpl-3.0.html</url>
+        </license>
+    </licenses>
 
 </project>

@@ -5,7 +5,9 @@ import java.util.List;
 import model.field.SudokuBox;
 import model.field.SudokuColumn;
 import model.field.SudokuRow;
-
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class SudokuBoard {
 
@@ -109,7 +111,7 @@ public class SudokuBoard {
             for (int colCheck = 0; colCheck < 3; colCheck++) {
                 for (int num = 1; num < 10; num++) {
                     if (board.get(rowIndex * 3 + rowCheck).get(colIndex * 3 + colCheck)
-                                    .getFieldValue() == num) {
+                            .getFieldValue() == num) {
                         rep++;
                     }
                 }
@@ -160,6 +162,42 @@ public class SudokuBoard {
         return copiedBoard;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        SudokuBoard that = (SudokuBoard) o;
+
+        return new EqualsBuilder()
+                .append(size, that.size)
+                .append(sudokuSolver, that.sudokuSolver)
+                .append(board, that.board)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(size)
+                .append(sudokuSolver)
+                .append(board)
+                .toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("size", size)
+                .append("sudokuSolver", sudokuSolver)
+                .append("board", board)
+                .toString();
+    }
 }
 
 

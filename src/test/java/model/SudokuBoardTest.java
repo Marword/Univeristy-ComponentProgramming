@@ -9,11 +9,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuBoardTest {
     private SudokuBoard sudo_board;
+    private SudokuBoard sudo_board2;
 
 
     @BeforeEach
     void startup() {
         sudo_board = new SudokuBoard(new BacktrackingSudokuSolver());
+        sudo_board2 = new SudokuBoard(new BacktrackingSudokuSolver());
 
     }
     @Test
@@ -79,6 +81,46 @@ class SudokuBoardTest {
     public void getBoxTest() {
         assertNotNull(sudo_board.getBox(1, 1));
     }
+
+    @Test
+    public void HashCodeTest() {
+        assertEquals(sudo_board.hashCode(),sudo_board.hashCode());
+        sudo_board2.solveGame();
+        assertNotEquals(sudo_board2.hashCode(),sudo_board.hashCode());
+    }
+
+    @Test
+    void ToStringTest() {
+        assertEquals(sudo_board.toString(),sudo_board.toString());
+        sudo_board2.solveGame();
+        assertNotEquals(sudo_board2.toString(),sudo_board.toString());
+        assertNotEquals(sudo_board.toString().length(), 0);
+    }
+
+    @Test
+    void equalsTest() {
+
+       assertTrue(sudo_board.equals(sudo_board));
+
+       assertFalse(sudo_board.equals(null));
+
+        sudo_board2.solveGame();
+        assertEquals(sudo_board.equals(sudo_board2),sudo_board2.equals(sudo_board));
+        sudo_board2.set(1,1,3);
+        sudo_board.set(1,1,1);
+        assertFalse(sudo_board.equals(sudo_board2));
+
+    }
+
+    @Test
+    void consistencyEqualsHashCodeTest() {
+        sudo_board2.solveGame();
+        if (sudo_board.hashCode() == sudo_board2.hashCode()) {
+            assertEquals(sudo_board, sudo_board2);
+        }
+
+    }
+
 
 
 }
