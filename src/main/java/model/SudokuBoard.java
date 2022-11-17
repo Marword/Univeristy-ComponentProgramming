@@ -193,8 +193,6 @@ public class SudokuBoard {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("size", size)
-                .append("sudokuSolver", sudokuSolver)
                 .append("board", board)
                 .toString();
     }
