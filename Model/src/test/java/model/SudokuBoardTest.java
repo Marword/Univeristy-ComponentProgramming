@@ -111,8 +111,8 @@ class SudokuBoardTest {
     @Test
     void consistencyEqualsHashCodeTest() {
         sudo_board2.solveGame();
-        if (sudo_board.hashCode() == sudo_board2.hashCode()) {
-            assertEquals(sudo_board, sudo_board2);
+        if (sudo_board.equals(sudo_board2)) {
+            assertEquals(sudo_board.hashCode(), sudo_board2.hashCode());
         }
 
     }

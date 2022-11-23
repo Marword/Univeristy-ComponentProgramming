@@ -61,13 +61,6 @@ class SudokuFieldGroupTest {
 
     }
 
-    @Test
-    public void equalssTest() {
-        SudokuRow sudokuRowFirst = sudokuRow;
-        SudokuRow sudokuRowSecond = sudokuRow;
-
-        assertTrue(sudokuRowFirst.equals(sudokuRowSecond) && sudokuRowSecond.equals(sudokuRowFirst));
-    }
 
     @Test
     public void HashCodeTest() {
