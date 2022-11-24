@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import model.field.SudokuBox;
@@ -9,7 +10,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class SudokuBoard {
+public class SudokuBoard implements Serializable, Cloneable {
 
     public final int size = 9;
     private final SudokuSolver sudokuSolver;
