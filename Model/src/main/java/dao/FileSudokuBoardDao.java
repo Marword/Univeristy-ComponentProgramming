@@ -1,11 +1,11 @@
 package dao;
 
-import model.SudokuBoard;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import model.SudokuBoard;
 
 public class FileSudokuBoardDao implements Dao<SudokuBoard>{
 
@@ -15,7 +15,6 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>{
         this.fileName = fileName + ".txt";
     }
 
-    //deserialization
     @Override
     public SudokuBoard read() {
         SudokuBoard obj = null;
@@ -27,7 +26,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>{
         }
         return obj;
     }
-    //serialization
+
     @Override
     public void write(SudokuBoard object) {
         try (ObjectOutputStream obj = new ObjectOutputStream(new FileOutputStream(fileName))) {
