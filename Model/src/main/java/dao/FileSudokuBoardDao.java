@@ -6,10 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class FileSudokuBoardDao implements Dao<SudokuBoard>{
 
@@ -33,7 +29,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>{
     }
     //serialization
     @Override
-    public void write(SudokuBoard object) throws IOException {
+    public void write(SudokuBoard object) {
         try (ObjectOutputStream obj = new ObjectOutputStream(new FileOutputStream(fileName))) {
             obj.writeObject(object);
         } catch (IOException e) {
