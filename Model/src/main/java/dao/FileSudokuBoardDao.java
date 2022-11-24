@@ -7,7 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import model.SudokuBoard;
 
-public class FileSudokuBoardDao implements Dao<SudokuBoard>{
+public class FileSudokuBoardDao implements Dao<SudokuBoard> {
 
     private String fileName;
 
@@ -18,9 +18,9 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>{
     @Override
     public SudokuBoard read() {
         SudokuBoard obj = null;
-        try (FileInputStream fileOut = new FileInputStream(fileName);
-             ObjectInputStream objectInputStream = new ObjectInputStream(fileOut)) {
-            obj = (SudokuBoard) objectInputStream.readObject();
+        try (FileInputStream fileIn = new FileInputStream(fileName);
+             ObjectInputStream objIn = new ObjectInputStream(fileIn)) {
+            obj = (SudokuBoard) objIn.readObject();
         } catch (ClassNotFoundException | IOException e) {
             throw new RuntimeException(e);
         }
