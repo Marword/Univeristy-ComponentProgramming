@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import model.field.SudokuBox;
 import model.field.SudokuColumn;
 import model.field.SudokuRow;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,8 @@ import java.util.Arrays;
 class SudokuFieldGroupTest {
 
     SudokuColumn sudokuColumn;
-    SudokuRow sudokuRow, sudokuRow2;
+    SudokuRow sudokuRow;
+    SudokuBox sudokuBox;
 
     @BeforeEach
     void setup() {
@@ -27,8 +29,8 @@ class SudokuFieldGroupTest {
                 new SudokuField(8),
                 new SudokuField(9)));
 
-        sudokuRow2 = new SudokuRow(Arrays.asList(
-                new SudokuField(1),
+        sudokuColumn = new SudokuColumn(Arrays.asList(
+                new SudokuField(2),
                 new SudokuField(2),
                 new SudokuField(3),
                 new SudokuField(4),
@@ -38,7 +40,7 @@ class SudokuFieldGroupTest {
                 new SudokuField(8),
                 new SudokuField(9)));
 
-        sudokuColumn = new SudokuColumn(Arrays.asList(
+        sudokuBox = new SudokuBox(Arrays.asList(
                 new SudokuField(2),
                 new SudokuField(2),
                 new SudokuField(3),
@@ -67,12 +69,24 @@ class SudokuFieldGroupTest {
 
     @Test
     void equalsTest() {
+        SudokuRow sudokuRow2 = new SudokuRow(Arrays.asList(
+                new SudokuField(1),
+                new SudokuField(2),
+                new SudokuField(3),
+                new SudokuField(4),
+                new SudokuField(5),
+                new SudokuField(6),
+                new SudokuField(7),
+                new SudokuField(8),
+                new SudokuField(9)));
+
         assertTrue(sudokuRow.equals(sudokuRow));
         assertFalse(sudokuRow.equals(null));
         assertTrue(sudokuRow2.equals(sudokuRow));
+        Object o = new Object();
+        assertFalse(sudokuRow.equals(o));
 
     }
-
 
     @Test
     public void HashCodeTest() {
@@ -89,6 +103,17 @@ class SudokuFieldGroupTest {
                 new SudokuField(9)));
         assertNotEquals(sudokuRow.hashCode(), sudokuRow2.hashCode());
 
+    }
+
+    @Test
+    void cloneTest() {
+        SudokuRow sudokuRow2 = sudokuRow.clone();
+        SudokuColumn sudokuColumn2 = sudokuColumn.clone();
+        SudokuBox sudokuBox2 = sudokuBox.clone();
+
+        assertEquals(sudokuRow2, sudokuRow);
+        assertEquals(sudokuColumn2, sudokuColumn);
+        assertEquals(sudokuBox2, sudokuBox);
 
     }
 

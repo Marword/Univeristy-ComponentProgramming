@@ -20,12 +20,10 @@ class SudokuBoardTest {
     }
     @Test
     void different_arrangements() {
-        SudokuBoard sudo_board1 = new SudokuBoard(new BacktrackingSudokuSolver());
         sudo_board.solveGame();
-        sudo_board1.solveGame();
-        int[][] board1 = sudo_board.copyBoard();
-        int[][] board2 = sudo_board1.copyBoard();
-        assertFalse(Arrays.deepEquals(board1, board2));
+        SudokuBoard sudo_board1 = sudo_board.clone();
+
+        assertNotEquals(sudo_board, sudo_board1);
     }
 
 
@@ -105,6 +103,9 @@ class SudokuBoardTest {
        sudo_board2.solveGame();
        assertFalse(sudo_board.equals(sudo_board2));
        assertEquals(sudo_board.equals(sudo_board2),sudo_board2.equals(sudo_board));
+
+        Object o = new Object();
+        assertFalse(sudo_board.equals(o));
 
     }
 

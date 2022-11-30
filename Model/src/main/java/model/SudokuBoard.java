@@ -24,7 +24,6 @@ public class SudokuBoard implements Serializable, Cloneable {
             board.set(i, Arrays.asList(new SudokuField[size]));
         }
 
-        //ZMIANA ZAWARTOSCI LISTY Z NULL NA OBIEKTY SudokuField
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 this.board.get(i).set(j, new SudokuField());
@@ -153,16 +152,6 @@ public class SudokuBoard implements Serializable, Cloneable {
         return true;
     }
 
-    public int[][] copyBoard() {
-        int[][] copiedBoard = new int[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                copiedBoard[i][j] = board.get(i).get(j).getFieldValue();
-            }
-        }
-        return copiedBoard;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -197,6 +186,19 @@ public class SudokuBoard implements Serializable, Cloneable {
                 .append("board", board)
                 .toString();
     }
+
+    @Override
+    public SudokuBoard clone() {
+        SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                sudokuBoard.set(i, j, get(i, j));
+            }
+        }
+
+        return sudokuBoard;
+    }
+
 }
 
 
