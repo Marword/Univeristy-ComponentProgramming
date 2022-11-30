@@ -12,6 +12,19 @@
     <artifactId>ModelProject</artifactId>
     <packaging>jar</packaging>
 
+    <developers>
+        <developer>
+            <id>mjanicki</id>
+            <name>Marcin Janicki</name>
+            <email>236547@edu.p.lodz.pl</email>
+        </developer>
+        <developer>
+            <id>wsłużewska</id>
+            <name>Wiktoria Służewska</name>
+            <email>236651@edu.p.lodz.pl</email>
+        </developer>
+    </developers>
+
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
