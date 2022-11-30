@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class BacktrackingSudokuSolver implements SudokuSolver {
+public class BacktrackingSudokuSolver implements SudokuSolver, Serializable {
 
     public boolean solve(SudokuBoard board) {
         Random rand = new Random();

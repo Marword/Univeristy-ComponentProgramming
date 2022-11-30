@@ -1,11 +1,14 @@
 package model;
 
+import java.io.Serializable;
 import model.exceptions.FieldValueException;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class SudokuField {
+
+
+public class SudokuField implements Serializable {
     private int value;
 
     public SudokuField() {
