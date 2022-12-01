@@ -11,7 +11,7 @@ public class BoardApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(BoardApplication.class.getResource("menu.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 700, 700);
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 1000);
         stage.setTitle("Sudoku");
         stage.setScene(scene);
         stage.show();
