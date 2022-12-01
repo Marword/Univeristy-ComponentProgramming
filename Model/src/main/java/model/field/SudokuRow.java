@@ -1,7 +1,6 @@
 package model.field;
 
-import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.List;
 import model.SudokuField;
 import model.SudokuFieldGroup;
