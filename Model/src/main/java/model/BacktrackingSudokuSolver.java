@@ -1,6 +1,8 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class BacktrackingSudokuSolver implements SudokuSolver, Serializable {
@@ -12,8 +14,9 @@ public class BacktrackingSudokuSolver implements SudokuSolver, Serializable {
             for (int col = 0; col < 9; col++) {
                 if (0 == board.get(row, col)) {
                     for (int x = 0; x <= 8; x++) {
-                        if (isValid(row, col, rand.nextInt(9) + 1, board)) {
-                            board.set(row, col, rand.nextInt(9) + 1);
+                        int num = rand.nextInt(9) + 1;
+                        if (isValid(row, col, num, board)) {
+                            board.set(row, col, num);
                             if (solve(board)) {
                                 return true;
                             } else {
@@ -27,6 +30,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver, Serializable {
         }
         return true;
     }
+
 
     private boolean isValidInRow(int rowNumber, int numberToInsert, final SudokuBoard board) {
         //Sprawdzanie wiersza, czy można podaną liczbę dać do niego

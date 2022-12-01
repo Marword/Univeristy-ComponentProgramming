@@ -56,6 +56,7 @@ class SudokuBoardTest {
         assertFalse(sudo_board.checkBoard());
         sudo_board.solveGame();
         assertTrue(sudo_board.checkBoard());
+        System.out.println(sudo_board.toString());
     }
 
     @Test
