@@ -23,7 +23,7 @@ class FileSudokuBoardDaoTest {
         fileSudokuBoardDao = factory.getFileDao("test");
         fileSudokuBoardDao.write(sudokuBoard);
         sudokuBoard2 = fileSudokuBoardDao.read();
-        assertNotEquals(sudokuBoard, sudokuBoard2);
+        assertEquals(sudokuBoard, sudokuBoard2);
     }
 
     @Test

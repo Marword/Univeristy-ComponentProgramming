@@ -23,7 +23,7 @@ class SudokuBoardTest {
         sudo_board.solveGame();
         SudokuBoard sudo_board1 = sudo_board.clone();
 
-        assertNotEquals(sudo_board, sudo_board1);
+        assertEquals(sudo_board, sudo_board1);
     }
 
 

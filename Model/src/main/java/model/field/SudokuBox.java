@@ -15,8 +15,13 @@ public class SudokuBox extends SudokuFieldGroup {
 
     @Override
     public SudokuBox clone() {
-        List<SudokuField> cfields = new ArrayList<>(Collections.unmodifiableList(fields));
-        return new SudokuBox(cfields);
+        SudokuBox box = new SudokuBox(fields);
+
+        for (int i = 0; i < size; i++) {
+            box.fields.set(i, this.fields.get(i));
+        }
+
+        return box;
     }
 }
 

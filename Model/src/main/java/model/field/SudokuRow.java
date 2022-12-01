@@ -14,7 +14,12 @@ public class SudokuRow extends SudokuFieldGroup {
 
     @Override
     public SudokuRow clone() {
-        List<SudokuField> cfields = new ArrayList<>(Collections.unmodifiableList(fields));
-        return new SudokuRow(cfields);
+        SudokuRow row = new SudokuRow(fields);
+
+        for (int i = 0; i < size; i++) {
+            row.fields.set(i, this.fields.get(i));
+        }
+
+        return row;
     }
 }

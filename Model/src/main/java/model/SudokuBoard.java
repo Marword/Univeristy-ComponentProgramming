@@ -165,8 +165,6 @@ public class SudokuBoard implements Serializable, Cloneable {
         SudokuBoard that = (SudokuBoard) o;
 
         return new EqualsBuilder()
-                .append(size, that.size)
-                .append(sudokuSolver, that.sudokuSolver)
                 .append(board, that.board)
                 .isEquals();
     }
@@ -174,8 +172,6 @@ public class SudokuBoard implements Serializable, Cloneable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(size)
-                .append(sudokuSolver)
                 .append(board)
                 .toHashCode();
     }
