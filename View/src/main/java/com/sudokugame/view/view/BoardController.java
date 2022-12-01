@@ -1,32 +1,46 @@
 package com.sudokugame.view.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
 import model.BacktrackingSudokuSolver;
 import model.Level;
 import model.SudokuBoard;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 
 public class BoardController {
 
     private SudokuBoard sudokuBoard;
     private Level sudokuLevel = Level.EASY;
-    @FXML
-    GridPane gridPane;
 
 
     @FXML
+    private AnchorPane boardController;
+
+    @FXML
+    private ToggleGroup difficulty;
+
+    @FXML
+    private RadioButton easy;
+
+    @FXML
+    private GridPane gridPane;
+
+    @FXML
+    private RadioButton hard;
+
+    @FXML
+    private RadioButton master;
+
+    @FXML
+    private RadioButton medium;
+
+    public String getDifficulty() {
+        RadioButton button = (RadioButton) difficulty.getSelectedToggle();
+        return button.getId();
+    }
+
     public void setDifficulty(){
 
     }
@@ -36,16 +50,18 @@ public class BoardController {
 
         sudokuBoard =  new SudokuBoard(new BacktrackingSudokuSolver());
         sudokuBoard.solveGame();
-        initSudokuCells(sudokuLevel);
+
+        initSudoku();
+
+
+    }
+    public void  initSudoku(){
 
     }
 
 
 
-    public void initSudokuCells(Level sudokuBoardLevel) {
 
-
-    }
 /*    @FXML
     private Label welcomeText;
 
