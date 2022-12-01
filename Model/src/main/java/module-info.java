@@ -4,5 +4,7 @@ module model {
     exports model.exceptions;
     opens model;
     exports model;
+    opens dao;
+    exports dao;
 
 }
