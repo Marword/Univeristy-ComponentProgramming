@@ -15,8 +15,11 @@ public enum Level {
         this.gaps = gaps;
     }
 
+    public int getGaps() {
+        return gaps;
+    }
+
     public void removeValues(final SudokuBoard board) {
-        board.solveGame();
         Random random = new Random();
         for (int i = 0; i < gaps; i++) {
             int x = random.nextInt(9);
