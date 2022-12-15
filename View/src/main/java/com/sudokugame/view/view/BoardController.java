@@ -6,10 +6,13 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import model.exceptions.DaoException;
 import model.exceptions.FileDaoException;
 import org.apache.log4j.LogManager;
@@ -20,6 +23,8 @@ import model.SudokuBoard;
 import org.apache.commons.lang3.math.NumberUtils;
 
 
+import java.io.IOException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 
@@ -31,21 +36,8 @@ public class BoardController {
 
     @FXML
     private GridPane gridPane;
-
     @FXML
-    private ToggleGroup difficulty;
-
-    @FXML
-    private RadioButton easy;
-
-    @FXML
-    private RadioButton hard;
-
-    @FXML
-    private RadioButton master;
-
-    @FXML
-    private RadioButton medium;
+    private Button backButton;
 
     @FXML
     private Button verifyButton;
@@ -60,34 +52,24 @@ public class BoardController {
     private SudokuBoard sudokuBoard = new SudokuBoard(solver);
     private SudokuBoard sudokuBoardCopy = new SudokuBoard(solver);
 
-    public String getDifficulty() {
-        RadioButton button = (RadioButton) difficulty.getSelectedToggle();
-        return button.getId();
-    }
-
-    public void setDifficulty(ActionEvent event) {
-        if (easy.isSelected()) {
-            sudokuLevel = Level.EASY;
-//            zmienić stringi na pliki zasobow potem
-            log.info("easy level chosen");
-        } else if (medium.isSelected()) {
-            sudokuLevel = Level.MEDIUM;
-            log.info("medium level chosen");
-        } else if (hard.isSelected()) {
-            sudokuLevel = Level.HARD;
-            log.info("hard level chosen");
-        } else {
-            sudokuLevel = Level.MASTER;
-            log.info("master level chosen");
-        }
-    }
-
     @FXML
     private void initialize() {
         verifyButton.setText(bundle.getString("verify"));
         loadButton.setText(bundle.getString("load"));
         saveButton.setText(bundle.getString("save"));
         sudokuBoard.solveGame();
+        if (Objects.equals(ApplicationController.getLevel(), "lvlEasy")) {
+            sudokuLevel = Level.EASY;
+        }
+        if (Objects.equals(ApplicationController.getLevel(), "lvlMedium")) {
+            sudokuLevel = Level.MEDIUM;
+        }
+        if (Objects.equals(ApplicationController.getLevel(), "lvlHard")) {
+            sudokuLevel = Level.HARD;
+        }
+        if (Objects.equals(ApplicationController.getLevel(), "lvlMaster")) {
+            sudokuLevel = Level.MASTER;
+        }
         sudokuLevel.removeValues(sudokuBoard);
         sudokuBoardCopy = sudokuBoard.clone();
         fillGrid();
@@ -172,6 +154,16 @@ public class BoardController {
             log.error("Loading failed.");
         }
 
+    }
+
+    @FXML
+    public void onActionButtonBack(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(BoardApplication.class.getResource("application-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 1000);
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        window.setTitle("Sudoku");
+        window.setScene(scene);
+        window.show();
     }
 
     @FXML

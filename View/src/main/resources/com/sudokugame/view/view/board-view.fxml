@@ -45,25 +45,21 @@
             <font>
                 <Font size="16.0" />
             </font>
-            <effect>
-                <Glow />
-            </effect>
+        </Button>
+        <Button fx:id="backButton" layoutX="203.0" layoutY="553.0" mnemonicParsing="false" onAction="#onActionButtonBack" prefHeight="48.0" prefWidth="95.0" text="Verify">
+            <font>
+                <Font size="16.0" />
+            </font>
         </Button>
         <Button fx:id="loadButton" layoutX="83.0" layoutY="598.0" mnemonicParsing="false" onAction="#loadGame" text="Load">
             <font>
                 <Font size="14.0" />
             </font>
-            <effect>
-                <Glow />
-            </effect>
         </Button>
         <Button fx:id="saveButton" layoutX="367.0" layoutY="598.0" mnemonicParsing="false" onAction="#saveGame" text="Save">
             <font>
                 <Font size="14.0" />
             </font>
-            <effect>
-                <Glow />
-            </effect>
         </Button>
     </children>
 </Pane>

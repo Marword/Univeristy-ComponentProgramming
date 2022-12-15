@@ -20,25 +20,16 @@
             <font>
                 <Font size="14.0" />
             </font>
-            <effect>
-                <Glow />
-            </effect>
         </Button>
         <Button fx:id="buttonStartGame" layoutX="423.0" layoutY="50.0" mnemonicParsing="false" onAction="#onActionButtonStartGame" prefHeight="117.0" prefWidth="212.0" text="Start Game">
             <font>
                 <Font size="20.0" />
             </font>
-            <effect>
-                <Glow />
-            </effect>
         </Button>
         <Button fx:id="english" layoutX="81.0" layoutY="139.0" mnemonicParsing="false" onAction="#setEnglishLanguage" text="Angielski">
             <font>
                 <Font size="14.0" />
             </font>
-            <effect>
-                <Glow />
-            </effect>
         </Button>
         <Label fx:id="chooseLanguage" layoutX="63.0" layoutY="28.0" text="Choose language">
             <font>
@@ -49,10 +40,6 @@
             <font>
                 <Font size="14.0" />
             </font>
-            <effect>
-                <Glow />
-            </effect>
         </Button>
-        <Label fx:id="students" layoutX="296.0" layoutY="195.0" text="Students" />
     </children>
 </Pane>
