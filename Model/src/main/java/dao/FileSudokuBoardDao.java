@@ -1,5 +1,6 @@
 package dao;
 
+import exceptions.FileDaoException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
              ObjectInputStream objIn = new ObjectInputStream(fileIn)) {
             obj = (SudokuBoard) objIn.readObject();
         } catch (ClassNotFoundException | IOException e) {
-            throw new RuntimeException(e);
+            throw new FileDaoException("FailedToRead", e);
         }
         return obj;
     }
@@ -32,7 +33,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
         try (ObjectOutputStream objOut = new ObjectOutputStream(new FileOutputStream(fileName))) {
             objOut.writeObject(object);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new FileDaoException("FailedToWrite", e);
         }
     }
 

@@ -7,9 +7,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import model.BacktrackingSudokuSolver;
 import model.Level;
 import model.SudokuBoard;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,7 @@ import java.util.List;
 
 public class BoardController {
 
+    private final Logger log = LogManager.getLogger(BoardController.class.getName());
     private SudokuBoard sudokuBoard;
     private Level sudokuLevel =Level.EASY;
 
@@ -94,26 +98,29 @@ public class BoardController {
         }
     }
 
-
-
     public void setDifficulty(ActionEvent event){
         if (easy.isSelected()) {
             sudokuLevel = Level.EASY;
+//            zmienić stringi na pliki zasobow potem
+            log.info("easy level chosen");
         }
         else if (medium.isSelected()) {
             sudokuLevel = Level.MEDIUM;
+            log.info("medium level chosen");
         }
         else if (hard.isSelected()) {
             sudokuLevel = Level.HARD;
+            log.info("hard level chosen");
         }
         else {
             sudokuLevel = Level.MASTER;
+            log.info("master level chosen");
         }
     }
 
     @FXML
     public void initialize() {
-
+        log.info("inicjalizacja planszy");
         sudokuBoard =  new SudokuBoard(new BacktrackingSudokuSolver());
         sudokuBoard.solveGame();
         sudokuLevel.removeValues(sudokuBoard);
@@ -121,36 +128,37 @@ public class BoardController {
 
 
     }
-    private TextField createTextField(int row, int col){
-        TextField textField;
-        textField = new TextField(String.valueOf(sudokuBoard.get(col,row)));
-        textField.setAlignment(Pos.CENTER);
-        textField.setFont(new Font("Calibri", 35));
-        textField.setEditable(true);
-
-
-        textField.setOnMouseClicked(e -> {
-            textField.setText(textFieldTmp.getText());
-//            exception jezeli nie zostal wybrany wczesniej button z wartoscia
-//            try {
+//    private TextField createTextField(int row, int col){
+//        TextField textField;
+//        textField = new TextField(String.valueOf(sudokuBoard.get(col,row)));
+//        textField.setAlignment(Pos.CENTER);
+//        textField.setFont(new Font("Calibri", 35));
+//        textField.setEditable(true);
 //
-//            } catch () {
 //
-//            }
-        });
-
-        return textField;
-    }
+//        textField.setOnMouseClicked(e -> {
+//            textField.setText(textFieldTmp.getText());
+////            exception jezeli nie zostal wybrany wczesniej button z wartoscia
+////            try {
+////
+////            } catch () {
+////
+////            }
+//        });
+//
+//        return textField;
+//    }
 
     public void  initSudoku(){
         for (int col = 0; col < sudokuBoard.size; col++) {
             for (int row = 0; row < sudokuBoard.size; row++) {
-//                TextField textField;
-//                textField = new TextField(String.valueOf(sudokuBoard.get(col,row)));
-//                textField.setAlignment(Pos.CENTER);
-//                textField.setFont(new Font("Calibri", 35));
-//                textField.setEditable(true);
-                gridPane.add(createTextField(row,col), col,row);
+                TextField textField;
+                textField = new TextField(String.valueOf(sudokuBoard.get(col,row)));
+                textField.setAlignment(Pos.CENTER);
+                textField.setFont(new Font("Calibri", 35));
+                textField.setEditable(true);
+                gridPane.add(textField,col,row);
+                //gridPane.add(createTextField(row,col), col,row);
                 }
             }
     }

@@ -1,10 +1,9 @@
 package dao;
 
+import exceptions.FileDaoException;
 import model.BacktrackingSudokuSolver;
 import model.SudokuBoard;
-import model.SudokuSolver;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -28,7 +27,7 @@ class FileSudokuBoardDaoTest {
 
     @Test
     void readIOExceptionTest() {
-        RuntimeException thrown = Assertions.assertThrows(RuntimeException.class, () -> {
+        FileDaoException thrown = assertThrows(FileDaoException.class, () -> {
             fileSudokuBoardDao = factory.getFileDao("?");
             fileSudokuBoardDao.read();
         });
@@ -36,7 +35,7 @@ class FileSudokuBoardDaoTest {
 
     @Test
     public void writeIOExceptionTest() {
-        RuntimeException thrown = Assertions.assertThrows(RuntimeException.class, () -> {
+        FileDaoException thrown = assertThrows(FileDaoException.class, () -> {
             fileSudokuBoardDao = factory.getFileDao("?");
             fileSudokuBoardDao.write(sudokuBoard);
         });
