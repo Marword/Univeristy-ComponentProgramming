@@ -1,7 +1,7 @@
 package com.sudokugame.view.view;
 
-import com.sudokugame.view.view.Exceptions.LevelNotSelectedException;
-import com.sudokugame.view.view.Exceptions.StageReloadingException;
+import com.sudokugame.view.view.Exceptions.MissingLevelException;
+import com.sudokugame.view.view.Exceptions.RefreshException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +15,6 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Objects;
@@ -23,90 +22,84 @@ import java.util.ResourceBundle;
 
 public class ApplicationController {
 
+    private static final Logger log = LogManager.getRootLogger();
+    @FXML
+    private Button buttonStart;
     @FXML
     private Label author1;
     @FXML
     private Label author2;
     @FXML
-    private Label chooseDifficulty;
+    private Label chooseDiff;
     @FXML
-    private Label chooseLanguage;
+    private ComboBox<String> systemDiff;
     @FXML
-    private Button buttonStartGame;
+    private Button buttonConfirm;
     @FXML
-    private Button buttonConfirmLevel;
+    private Label chooseLang;
     @FXML
     private Button english;
     @FXML
-    private ComboBox<String> comboBoxSystemDifficult;
-    @FXML
     private Button polish;
-    private AlertBox alertBox = new AlertBox();
-    private static String level;
-    private final ResourceBundle bundle = ResourceBundle.getBundle("languages");
+    private static String difficulty;
+    private final ResourceBundle langs = ResourceBundle.getBundle("languages");
     private final ResourceBundle authors = ResourceBundle.getBundle("com.sudokugame.view.view.Authors");
 
 
-    public static String getLevel() {
-        return level;
-    }
-
-    private static final Logger log = LogManager.getRootLogger();
-
     @FXML
     private void initialize() {
-        String writing = authors.getString("name1") + " " + authors.getString("surname1");
-        author1.setText(writing);
-        writing = authors.getString("name2") + " " + authors.getString("surname2");
-        author2.setText(writing);
-        chooseDifficulty.setText(bundle.getString("chooseDifficulty"));
-        chooseLanguage.setText(bundle.getString("chooseLanguage"));
-        comboBoxSystemDifficult.setValue(bundle.getString("choice"));
-        buttonStartGame.setText(bundle.getString("startButton"));
-        buttonConfirmLevel.setText(bundle.getString("confirm"));
-        english.setText(bundle.getString("lang_en"));
-        polish.setText(bundle.getString("lang_pol"));
-        comboBoxSystemDifficult.getItems().addAll(
-                bundle.getString("lvlEasy"),
-                bundle.getString("lvlMedium"),
-                bundle.getString("lvlHard"),
-                bundle.getString("lvlMaster")
-        );
+        String text = authors.getString("name1") + " " + authors.getString("surname1");
+        author1.setText(text);
+        text = authors.getString("name2") + " " + authors.getString("surname2");
+        author2.setText(text);
+
+        chooseLang.setText(langs.getString("chooseLang"));
+        english.setText(langs.getString("lang_en"));
+        polish.setText(langs.getString("lang_pol"));
+
+        chooseDiff.setText(langs.getString("chooseDiff"));
+        systemDiff.setValue(langs.getString("diffBox"));
+        systemDiff.getItems().addAll(langs.getString("easy"), langs.getString("medium"), langs.getString("hard"), langs.getString("master"));
+
+        buttonConfirm.setText(langs.getString("confirmLevel"));
+
+        buttonStart.setText(langs.getString("startButton"));
     }
 
     @FXML
-    private void setEnglishLanguage(ActionEvent actionEvent) throws IOException {
+    private void setEnglish(ActionEvent actionEvent) throws IOException {
         Locale locale = new Locale.Builder().setLanguage("en").setRegion("UK").build();
         Locale.setDefault(locale);
-        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        reloadStage(window);
-        log.info("Language set: English");
+        Stage openWindow = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        refreshStage(openWindow);
+        log.info("Language: English");
     }
 
     @FXML
-    private void setPolishLanguage(ActionEvent actionEvent) throws IOException {
+    private void setPolish(ActionEvent actionEvent) throws IOException {
         Locale locale = new Locale.Builder().setLanguage("pl").setRegion("PL").build();
         Locale.setDefault(locale);
-        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        reloadStage(window);
-        log.info("Language set: Polish");
+        Stage openWindow = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        refreshStage(openWindow);
+        log.info("Language: Polish");
     }
 
-    private void reloadStage(Stage window) throws IOException {
-        Parent root;
+    @FXML
+    public void onActionConfirm(ActionEvent actionEvent) {
         try {
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("application-view.fxml")));
-            Scene scene = new Scene(root);
-            window.setScene(scene);
-            window.show();
-        } catch (StageReloadingException exception) {
-            exception.printStackTrace();
+            if (!Objects.equals(systemDiff.getSelectionModel().getSelectedItem(), "Wybierz")) {
+                difficulty = systemDiff.getSelectionModel().getSelectedItem();
+                log.info("Difficulty set: " + difficulty);
+            }
+        } catch (MissingLevelException exception) {
+            AlertBox.message("Warning", "Level of difficulty has not been chosen", Alert.AlertType.WARNING);
+            log.warn("Difficulty not set.");
         }
     }
 
     @FXML
-    public void onActionButtonStartGame(ActionEvent actionEvent) throws IOException {
-        if (!(level == null)) {
+    public void onActionStart(ActionEvent actionEvent) throws IOException {
+        if (!(difficulty == null)) {
             FXMLLoader fxmlLoader = new FXMLLoader(BoardApplication.class.getResource("board-view.fxml"));
             Scene game = new Scene(fxmlLoader.load(), 500, 659);
             Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -114,24 +107,25 @@ public class ApplicationController {
             window.setScene(game);
             window.show();
         } else {
-            AlertBox.messageBox("Warning",
-                    "You need to choose level of difficulty, before we can proceed.", Alert.AlertType.WARNING);
+            AlertBox.message("Warning", "You need to choose level of difficulty, before we can proceed.", Alert.AlertType.WARNING);
             log.warn("Difficulty not set.");
         }
     }
 
-    @FXML
-    public void onActionButtonConfirm(ActionEvent actionEvent) {
+    private void refreshStage(Stage window) throws IOException {
+        Parent refresh;
         try {
-            if (!Objects.equals(comboBoxSystemDifficult.getSelectionModel().getSelectedItem(), "Wybierz")) {
-                level = comboBoxSystemDifficult.getSelectionModel().getSelectedItem();
-                log.info("Difficulty set: " + level);
-            }
-        } catch (LevelNotSelectedException exception) {
-            AlertBox.messageBox("Warning",
-                    "Level of difficulty has not been chosen", Alert.AlertType.WARNING);
-            log.warn("Difficulty not set.");
+            refresh = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("application-view.fxml")));
+            Scene scene = new Scene(refresh);
+            window.setScene(scene);
+            window.show();
+        } catch (RefreshException exception) {
+            exception.printStackTrace();
         }
+    }
+
+    public static String getDifficulty() {
+        return difficulty;
     }
 
 }

@@ -21,47 +21,75 @@ import model.BacktrackingSudokuSolver;
 import model.Level;
 import model.SudokuBoard;
 import org.apache.commons.lang3.math.NumberUtils;
-
-
 import java.io.IOException;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 
 public class BoardController {
 
     private final Logger log = LogManager.getLogger(BoardController.class.getName());
-    private Level sudokuLevel = Level.EASY;
-    private final ResourceBundle bundle = ResourceBundle.getBundle("Languages");
+    private final ResourceBundle lang = ResourceBundle.getBundle("Languages");
 
     @FXML
     private GridPane gridPane;
     @FXML
     private Button backButton;
-
     @FXML
-    private Button verifyButton;
+    private Button checkButton;
     @FXML
     private Button loadButton;
     @FXML
     private Button saveButton;
 
     private BacktrackingSudokuSolver solver = new BacktrackingSudokuSolver();
+    private SudokuBoard sudokuBoard = new SudokuBoard(solver);
+    private SudokuBoard sudokuBoardCpy = new SudokuBoard(solver);
+    private Level sudokuLevel = Level.EASY;
 
     private AlertBox alertBox = new AlertBox();
-    private SudokuBoard sudokuBoard = new SudokuBoard(solver);
-    private SudokuBoard sudokuBoardCopy = new SudokuBoard(solver);
 
     @FXML
     private void initialize() {
-        verifyButton.setText(bundle.getString("verify"));
-        loadButton.setText(bundle.getString("load"));
-        saveButton.setText(bundle.getString("save"));
+        backButton.setText(lang.getString("back"));
+        checkButton.setText(lang.getString("verifyBoard"));
+        loadButton.setText(lang.getString("loadGame"));
+        saveButton.setText(lang.getString("saveGame"));
+
         sudokuBoard.solveGame();
-        sudokuLevel.chooseLevel(sudokuBoard, ApplicationController.getLevel());
-        sudokuBoardCopy = sudokuBoard.clone();
-        fillGrid();
+        sudokuLevel.chooseLevel(sudokuBoard, ApplicationController.getDifficulty());
+        sudokuBoardCpy = sudokuBoard.clone();
+
+        insertBoardToGrid();
     }
+
+    private void insertBoardToGrid() {
+        if (gridPane.getChildren() != null) {
+            gridPane.getChildren().clear();
+        }
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                TextField textField = new TextField();
+                textField.setMinSize(50, 50);
+                textField.setFont(Font.font(15));
+                if (sudokuBoard.get(i, j) != 0) {
+                    if (sudokuBoardCpy.get(i, j) != 0) {
+                        textField.setDisable(true);
+                    }
+                    textField.setText(String.valueOf(sudokuBoard.get(i, j)));
+                }
+                textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                    if (textField.getText().matches("[1-9]") || textField.getText().matches("")) {
+                        updateBoard();
+                    } else {
+                        Platform.runLater(textField::clear);
+                    }
+                });
+                gridPane.add(textField, i, j);
+
+            }
+        }
+    }
+
 
     @FXML
     private void updateBoard() {
@@ -79,36 +107,6 @@ public class BoardController {
         }
     }
 
-    private void fillGrid() {
-        if (gridPane.getChildren() != null) {
-            gridPane.getChildren().clear();
-        }
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                TextField textField = new TextField();
-                textField.setMinSize(50, 50);
-                textField.setFont(Font.font(15));
-                if (sudokuBoard.get(i, j) != 0) {
-                    if (sudokuBoardCopy.get(i, j) != 0) {
-                        textField.setDisable(true);
-                    }
-                    textField.setText(String.valueOf(sudokuBoard.get(i, j)));
-                }
-                textField.textProperty().addListener((observable, oldValue, newValue) -> {
-                    if (textField.getText().matches("[1-9]") || textField.getText().matches("")) {
-                        updateBoard();
-                    } else {
-                        Platform.runLater(textField::clear);
-//                        popOutWindow.messageBox("Warning",
-//                                "The inserted value must be an integer in range: (1-9)", Alert.AlertType.WARNING);
-                    }
-                });
-                gridPane.add(textField, i, j);
-
-            }
-        }
-    }
-
 
     @FXML
     private void saveGame(ActionEvent actionEvent) throws DaoException {
@@ -118,10 +116,10 @@ public class BoardController {
         updateBoard();
         try {
             file.write(sudokuBoard);
-            log.info("Game saved.");
+            log.info("Game has been saved.");
         } catch (FileDaoException e) {
-            AlertBox.messageBox("Error",
-                    "Couldn't save the game progress.", Alert.AlertType.WARNING);
+            AlertBox.message("Error",
+                    "Couldn't save the game progress. Contact the authors to fix the issue.", Alert.AlertType.WARNING);
             log.error("Saving failed.");
         }
     }
@@ -134,18 +132,18 @@ public class BoardController {
             Dao<SudokuBoard> file;
             file = factory.getFileDao("save");
             sudokuBoard = file.read();
-            fillGrid();
-            log.info("Game loaded.");
+            insertBoardToGrid();
+            log.info("Game has been loaded.");
         } catch (FileDaoException e) {
-            AlertBox.messageBox("Error",
-                    "Couldn't load the game progress.", Alert.AlertType.WARNING);
+            AlertBox.message("Error",
+                    "Couldn't load the game progress. Contact the authors to fix the issue.", Alert.AlertType.WARNING);
             log.error("Loading failed.");
         }
 
     }
 
     @FXML
-    public void onActionButtonBack(ActionEvent actionEvent) throws IOException {
+    public void onActionBack(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(BoardApplication.class.getResource("application-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 421.0, 226.0);
         Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -155,10 +153,10 @@ public class BoardController {
     }
 
     @FXML
-    public void onActionButtonCheck(ActionEvent actionEvent) {
+    public void onActionCheck(ActionEvent actionEvent) {
         boolean isSolved = true;
         for (int i = 0; i < 9; i++) {
-            if (!sudokuBoard.checkColumn(i) || !sudokuBoard.checkRow(i) ) {
+            if (!sudokuBoard.checkColumn(i) || !sudokuBoard.checkRow(i)) {
                 isSolved = false;
                 break;
             }
@@ -172,11 +170,11 @@ public class BoardController {
             }
         }
         if (isSolved) {
-            AlertBox.messageBox("Win",
-                    "You won.", Alert.AlertType.WARNING);
+            AlertBox.message("Win",
+                    "You won the game! Congratulations!", Alert.AlertType.WARNING);
         } else {
-            AlertBox.messageBox("Fail",
-                    "It's not the right solution.", Alert.AlertType.WARNING);
+            AlertBox.message("Fail",
+                    "You failed. Better try with lower levels, fellow player!", Alert.AlertType.WARNING);
         }
     }
 

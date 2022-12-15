@@ -41,12 +41,12 @@
             <InnerShadow />
          </effect>
         </GridPane>
-        <Button fx:id="verifyButton" layoutX="175.0" layoutY="513.0" mnemonicParsing="false" onAction="#onActionButtonCheck" prefHeight="48.0" prefWidth="150.0" text="Verify">
+        <Button fx:id="checkButton" layoutX="175.0" layoutY="513.0" mnemonicParsing="false" onAction="#onActionCheck" prefHeight="48.0" prefWidth="150.0" text="Verify">
             <font>
                 <Font size="16.0" />
             </font>
         </Button>
-        <Button fx:id="backButton" layoutX="203.0" layoutY="589.0" mnemonicParsing="false" onAction="#onActionButtonBack" prefHeight="48.0" prefWidth="95.0" text="Back">
+        <Button fx:id="backButton" layoutX="203.0" layoutY="589.0" mnemonicParsing="false" onAction="#onActionBack" prefHeight="48.0" prefWidth="95.0" text="Back">
             <font>
                 <Font size="16.0" />
             </font>
