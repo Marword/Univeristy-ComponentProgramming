@@ -4,13 +4,17 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
 public class BoardApplication extends Application {
+    private static final Logger log = LogManager.getRootLogger();
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(BoardApplication.class.getResource("menu.fxml"));
+        log.info("Application is starting...");
+        FXMLLoader fxmlLoader = new FXMLLoader(BoardApplication.class.getResource("application-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 1000);
         stage.setTitle("Sudoku");
         stage.setScene(scene);

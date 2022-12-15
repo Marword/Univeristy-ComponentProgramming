@@ -6,9 +6,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-
 public class SudokuField implements Serializable, Cloneable, Comparable<SudokuField> {
     private int value;
+    private boolean isEmptyField;
 
     public SudokuField() {
 
@@ -27,6 +27,14 @@ public class SudokuField implements Serializable, Cloneable, Comparable<SudokuFi
             throw new FieldValueException("Must be <1,9>");
         }
         this.value = value;
+    }
+
+    public boolean isEmptyField() {
+        return isEmptyField;
+    }
+
+    public void setEmptyField() {
+        isEmptyField = true;
     }
 
     @Override

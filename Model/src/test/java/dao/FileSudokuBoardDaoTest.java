@@ -1,6 +1,6 @@
 package dao;
 
-import exceptions.FileDaoException;
+import model.exceptions.FileDaoException;
 import model.BacktrackingSudokuSolver;
 import model.SudokuBoard;
 import org.junit.jupiter.api.Assertions;

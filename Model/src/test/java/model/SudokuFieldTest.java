@@ -76,6 +76,17 @@ class SudokuFieldTest {
     }
 
     @Test
+    public void isEmptyFieldTest() {
+        assertFalse(sudokuField.isEmptyField());
+    }
+
+    @Test
+    public void setEmptyFieldTest() {
+        sudokuField.setEmptyField();
+        assertTrue(sudokuField.isEmptyField());
+    }
+
+    @Test
     void cloneTest() {
         sudokuField2 = sudokuField.clone();
         assertEquals(sudokuField2, sudokuField);

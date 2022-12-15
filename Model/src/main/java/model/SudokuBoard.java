@@ -75,6 +75,14 @@ public class SudokuBoard implements Serializable, Cloneable {
         sudokuSolver.solve(this);
     }
 
+    public boolean isEditableField(int axisX, int axisY) {
+        return board.get(axisX).get(axisY).isEmptyField();
+    }
+
+    public void setEditableField(int axisX, int axisY) {
+        board.get(axisX).get(axisY).setEmptyField();
+    }
+
     public boolean checkRow(int row) {
         int rep = 0;
         for (int j = 0; j < 9; j++) {
