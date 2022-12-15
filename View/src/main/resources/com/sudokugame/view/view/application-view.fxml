@@ -1,45 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.Glow?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane fx:id="window" maxHeight="226.0" maxWidth="226.0" minHeight="226.0" minWidth="655.0" prefHeight="226.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sudokugame.view.view.ApplicationController">
+<Pane fx:id="window" maxHeight="226.0" maxWidth="421.0" minHeight="226.0" minWidth="421.0" prefHeight="226.0" prefWidth="421.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sudokugame.view.view.ApplicationController">
     <children>
-        <Label fx:id="chooseDifficulty" layoutX="274.0" layoutY="28.0" text="Choose difficulty">
+        <Label fx:id="chooseDifficulty" layoutX="30.0" layoutY="26.0" prefHeight="20.0" prefWidth="150.0" text="Choose difficulty" textAlignment="CENTER">
+            <font>
+                <Font size="14.0" />
+            </font>
+         <effect>
+            <SepiaTone />
+         </effect>
+        </Label>
+        <ComboBox fx:id="comboBoxSystemDifficult" layoutX="26.0" layoutY="60.0" prefWidth="150.0" promptText="Choice">
+         <effect>
+            <SepiaTone />
+         </effect></ComboBox>
+        <Button fx:id="buttonConfirmLevel" layoutX="33.0" layoutY="98.0" mnemonicParsing="false" onAction="#onActionButtonConfirm" prefHeight="30.0" prefWidth="141.0" text="Confirm" textAlignment="CENTER">
+            <font>
+                <Font size="14.0" />
+            </font>
+         <effect>
+            <SepiaTone />
+         </effect>
+        </Button>
+        <Button fx:id="buttonStartGame" layoutX="197.0" layoutY="26.0" mnemonicParsing="false" onAction="#onActionButtonStartGame" prefHeight="117.0" prefWidth="212.0" text="Start Game">
+            <font>
+                <Font name="Broadway" size="20.0" />
+            </font>
+        </Button>
+        <Button fx:id="english" layoutX="197.0" layoutY="175.0" mnemonicParsing="false" onAction="#setEnglishLanguage" text="Angielski">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Button>
+        <Label fx:id="chooseLanguage" layoutX="249.0" layoutY="149.0" text="Choose language">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-        <ComboBox fx:id="comboBoxSystemDifficult" layoutX="251.0" layoutY="65.0" prefWidth="150.0" promptText="Choice">
-        </ComboBox>
-        <Button fx:id="buttonConfirmLevel" layoutX="276.0" layoutY="136.0" mnemonicParsing="false" onAction="#onActionButtonConfirm" text="Confirm">
+        <Button fx:id="polish" layoutX="356.0" layoutY="175.0" mnemonicParsing="false" onAction="#setPolishLanguage" text="Polski">
             <font>
                 <Font size="14.0" />
             </font>
         </Button>
-        <Button fx:id="buttonStartGame" layoutX="423.0" layoutY="50.0" mnemonicParsing="false" onAction="#onActionButtonStartGame" prefHeight="117.0" prefWidth="212.0" text="Start Game">
-            <font>
-                <Font size="20.0" />
-            </font>
-        </Button>
-        <Button fx:id="english" layoutX="81.0" layoutY="139.0" mnemonicParsing="false" onAction="#setEnglishLanguage" text="Angielski">
-            <font>
-                <Font size="14.0" />
-            </font>
-        </Button>
-        <Label fx:id="chooseLanguage" layoutX="63.0" layoutY="28.0" text="Choose language">
-            <font>
-                <Font size="14.0" />
-            </font>
-        </Label>
-        <Button fx:id="polish" layoutX="91.0" layoutY="78.0" mnemonicParsing="false" onAction="#setPolishLanguage" text="Polski">
-            <font>
-                <Font size="14.0" />
-            </font>
-        </Button>
+        <Label layoutX="17.0" layoutY="167.0" prefHeight="17.0" prefWidth="168.0" text="Autorzy:" textAlignment="CENTER" />
+        <Label fx:id="author1" layoutX="17.0" layoutY="182.0" prefHeight="17.0" prefWidth="168.0" text="Autor1" textAlignment="CENTER" />
+        <Label fx:id="author2" layoutX="17.0" layoutY="197.0" prefHeight="17.0" prefWidth="168.0" text="Autor2" textAlignment="CENTER" />
     </children>
+   <effect>
+      <SepiaTone />
+   </effect>
 </Pane>

@@ -15,7 +15,7 @@ public class BoardApplication extends Application {
     public void start(Stage stage) throws IOException {
         log.info("Application is starting...");
         FXMLLoader fxmlLoader = new FXMLLoader(BoardApplication.class.getResource("application-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 1000);
+        Scene scene = new Scene(fxmlLoader.load(), 421.0, 226.0);
         stage.setTitle("Sudoku");
         stage.setScene(scene);
         stage.show();

@@ -31,6 +31,43 @@ public enum Level {
             }
         }
     }
+
+    public SudokuBoard chooseLevel(SudokuBoard sudokuBoard, String level) {
+
+        switch (level) {
+
+            case "Latwy":
+            case "Easy": {
+                this.gaps = 30;
+                removeValues(sudokuBoard);
+                break;
+            }
+            case "Sredni":
+            case "Medium": {
+                this.gaps = 40;
+                removeValues(sudokuBoard);
+                break;
+            }
+            case "Trudny":
+            case "Hard": {
+                this.gaps = 50;
+                removeValues(sudokuBoard);
+                break;
+            }
+            case "Mistrz":
+            case "Master": {
+                this.gaps = 60;
+                removeValues(sudokuBoard);
+                break;
+            }
+            default: {
+                this.gaps = 30;
+                removeValues(sudokuBoard);
+            }
+        }
+
+        return sudokuBoard;
+    }
 }
 
 

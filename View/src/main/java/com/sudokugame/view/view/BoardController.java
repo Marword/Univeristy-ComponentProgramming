@@ -58,19 +58,7 @@ public class BoardController {
         loadButton.setText(bundle.getString("load"));
         saveButton.setText(bundle.getString("save"));
         sudokuBoard.solveGame();
-        if (Objects.equals(ApplicationController.getLevel(), "lvlEasy")) {
-            sudokuLevel = Level.EASY;
-        }
-        if (Objects.equals(ApplicationController.getLevel(), "lvlMedium")) {
-            sudokuLevel = Level.MEDIUM;
-        }
-        if (Objects.equals(ApplicationController.getLevel(), "lvlHard")) {
-            sudokuLevel = Level.HARD;
-        }
-        if (Objects.equals(ApplicationController.getLevel(), "lvlMaster")) {
-            sudokuLevel = Level.MASTER;
-        }
-        sudokuLevel.removeValues(sudokuBoard);
+        sudokuLevel.chooseLevel(sudokuBoard, ApplicationController.getLevel());
         sudokuBoardCopy = sudokuBoard.clone();
         fillGrid();
     }
@@ -99,7 +87,7 @@ public class BoardController {
             for (int j = 0; j < 9; j++) {
                 TextField textField = new TextField();
                 textField.setMinSize(50, 50);
-                textField.setFont(Font.font(11));
+                textField.setFont(Font.font(15));
                 if (sudokuBoard.get(i, j) != 0) {
                     if (sudokuBoardCopy.get(i, j) != 0) {
                         textField.setDisable(true);
@@ -159,7 +147,7 @@ public class BoardController {
     @FXML
     public void onActionButtonBack(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(BoardApplication.class.getResource("application-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 1000);
+        Scene scene = new Scene(fxmlLoader.load(), 421.0, 226.0);
         Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setTitle("Sudoku");
         window.setScene(scene);

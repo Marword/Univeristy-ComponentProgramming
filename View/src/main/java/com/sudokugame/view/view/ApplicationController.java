@@ -22,6 +22,11 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ApplicationController {
+
+    @FXML
+    private Label author1;
+    @FXML
+    private Label author2;
     @FXML
     private Label chooseDifficulty;
     @FXML
@@ -39,6 +44,7 @@ public class ApplicationController {
     private AlertBox alertBox = new AlertBox();
     private static String level;
     private final ResourceBundle bundle = ResourceBundle.getBundle("languages");
+    private final ResourceBundle authors = ResourceBundle.getBundle("com.sudokugame.view.view.Authors");
 
 
     public static String getLevel() {
@@ -49,6 +55,10 @@ public class ApplicationController {
 
     @FXML
     private void initialize() {
+        String writing = authors.getString("name1") + " " + authors.getString("surname1");
+        author1.setText(writing);
+        writing = authors.getString("name2") + " " + authors.getString("surname2");
+        author2.setText(writing);
         chooseDifficulty.setText(bundle.getString("chooseDifficulty"));
         chooseLanguage.setText(bundle.getString("chooseLanguage"));
         comboBoxSystemDifficult.setValue(bundle.getString("choice"));
