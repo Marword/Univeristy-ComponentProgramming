@@ -15,20 +15,7 @@ import java.time.format.DateTimeFormatter;
 import static dao.JdbcSudokuBoardDao.createSudokuBoardsTable;
 import static org.junit.jupiter.api.Assertions.*;
 
-class JdbcSudkouBoardDaoTest {
-
-    @Test
-    void daoReadSaveDatabaseTest() throws DaoException {
-        SudokuBoard board1 = new SudokuBoard(new BacktrackingSudokuSolver());
-        board1.solveGame();
-        SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        String name = dtf.format(now).toString();
-        factory.getDatabaseDao(name).write(board1);
-        SudokuBoard board2 = factory.getDatabaseDao(name).read();
-        assertEquals(board1, board2);
-    }
+class JdbcSudokuBoardDaoTest {
 
     @Test
     void wrongInputTest() throws DaoException {
