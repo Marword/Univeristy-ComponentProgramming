@@ -21,7 +21,9 @@ import model.BacktrackingSudokuSolver;
 import model.Level;
 import model.SudokuBoard;
 import org.apache.commons.lang3.math.NumberUtils;
+
 import java.io.IOException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -44,6 +46,7 @@ public class BoardController {
     private BacktrackingSudokuSolver solver = new BacktrackingSudokuSolver();
     private SudokuBoard sudokuBoard = new SudokuBoard(solver);
     private SudokuBoard sudokuBoardCpy = new SudokuBoard(solver);
+    private Dao<SudokuBoard> databaseSudokuBoardDao;
     private Level sudokuLevel = Level.EASY;
 
     private AlertBox alertBox = new AlertBox();
@@ -107,39 +110,51 @@ public class BoardController {
         }
     }
 
-
     @FXML
-    private void saveGame(ActionEvent actionEvent) throws DaoException {
-        SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
-        Dao<SudokuBoard> file;
-        file = factory.getFileDao("save");
-        updateBoard();
-        try {
-            file.write(sudokuBoard);
-            log.info("Game has been saved.");
-        } catch (FileDaoException e) {
-            AlertBox.message("Error",
-                    "Couldn't save the game progress. Contact the authors to fix the issue.", Alert.AlertType.WARNING);
-            log.error("Saving failed.");
-        }
+    public void loadGame(ActionEvent actionEvent) {
+        TextInputDialog td = new TextInputDialog("text");
+        td.setTitle("Loading");
+        td.setHeaderText("Write name of the board to load");
+        td.setContentText("Name:");
+        Optional<String> result = td.showAndWait();
+        result.ifPresent(name -> {
+            SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
+            try {
+                sudokuBoard = factory.getDatabaseDao(name).read();
+                String names = name + "emp";
+                sudokuBoardCpy = factory.getDatabaseDao(names).read();
+                insertBoardToGrid();
+            } catch (FileDaoException e) {
+                AlertBox.message("Err",
+                        "Can't load from the database.", Alert.AlertType.WARNING);
+                log.error("Loading from database failed.");
+            }
+            ;
+        });
     }
 
-
     @FXML
-    private void loadGame(ActionEvent actionEvent) throws DaoException {
-        try {
+    public void saveGame(ActionEvent actionEvent) {
+        TextInputDialog td = new TextInputDialog("text");
+        td.setTitle("Saving");
+        td.setHeaderText("Write name under which board will be saved");
+        td.setContentText("Name:");
+        Optional<String> result = td.showAndWait();
+        result.ifPresent(name -> {
             SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
-            Dao<SudokuBoard> file;
-            file = factory.getFileDao("save");
-            sudokuBoard = file.read();
-            insertBoardToGrid();
-            log.info("Game has been loaded.");
-        } catch (FileDaoException e) {
-            AlertBox.message("Error",
-                    "Couldn't load the game progress. Contact the authors to fix the issue.", Alert.AlertType.WARNING);
-            log.error("Loading failed.");
-        }
+            try {
+                updateBoard();
+                factory.getDatabaseDao(name).write(sudokuBoard);
+                String names = name + "emp";
+                factory.getDatabaseDao(names).write(sudokuBoardCpy);
+            } catch (FileDaoException e) {
+                AlertBox.message("Err",
+                        "Couldn't save the board to the database.", Alert.AlertType.WARNING);
+                log.error("Saving to database failed.");
 
+            }
+            ;
+        });
     }
 
     @FXML

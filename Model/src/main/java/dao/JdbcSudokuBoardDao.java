@@ -97,13 +97,11 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable {
                         + "val, id_board) values (?, ?, ?, ?, ?)";
                 try (PreparedStatement preparedStatement =
                              connection.prepareStatement(insertData2)) {
-
-                    preparedStatement.setInt(1, i * 9 + j);
+                    preparedStatement.setInt(1, boardId * 100 + i * 9 + j);
                     preparedStatement.setInt(2, i);
                     preparedStatement.setInt(3, j);
                     preparedStatement.setInt(4, sudokuBoard.get(i, j));
                     preparedStatement.setInt(5, boardId);
-
                     preparedStatement.addBatch();
                     preparedStatement.executeBatch();
                 } catch (SQLException e) {

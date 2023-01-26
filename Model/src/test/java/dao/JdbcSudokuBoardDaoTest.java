@@ -31,8 +31,8 @@ class JdbcSudokuBoardDaoTest {
 
     @Test
     public void writeReadDbTest() throws IOException {
-        databaseSudokuBoardDao = factory.getDatabaseDao("xxx.db");
-        createTables();
+        databaseSudokuBoardDao = factory.getDatabaseDao("testBoardName3");
+        //createTables();
         databaseSudokuBoardDao.write(sudokuBoard);
         sudokuBoard2 = databaseSudokuBoardDao.read();
 
