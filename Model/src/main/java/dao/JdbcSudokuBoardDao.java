@@ -21,6 +21,11 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable {
 
     public JdbcSudokuBoardDao(String boardName) {
         this.boardName = boardName;
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private Connection connect() throws JdbcDatabaseException {
@@ -38,7 +43,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable {
     public SudokuBoard read() throws JdbcDatabaseException {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         Connection connection = connect();
-        int receivedData;
+        int receivedData = 0;
         ResultSet resultSet;
         ResultSet resultSet2;
         String selectData = "select id_board, name from SudokuBoards where name=?";
@@ -46,8 +51,10 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable {
         try (PreparedStatement preparedStatement = connection.prepareStatement(selectData)) {
             preparedStatement.setString(1, boardName);
             resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            receivedData = resultSet.getInt("id_board");
+            if (resultSet.next()) {
+                receivedData = resultSet.getInt("id_board");
+            }
+
         } catch (SQLException e) {
             throw new JdbcDatabaseException("Read board error", e);
         }
@@ -60,8 +67,10 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable {
             resultSet2 = preparedStatement2.executeQuery();
 
             for (int i = 0; i < 81; i++) {
-                resultSet2.next();
-                sudokuBoard.set(resultSet2.getInt(2), resultSet2.getInt(3), resultSet2.getInt(4));
+                if (resultSet2.next()) {
+                    sudokuBoard.set(resultSet2.getInt(2),
+                            resultSet2.getInt(3), resultSet2.getInt(4));
+                }
             }
         } catch (SQLException e) {
             throw new JdbcDatabaseException("Read values error", e);
@@ -142,6 +151,25 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable {
             statement.execute(sudokuValues);
         } catch (SQLException e) {
             throw new JdbcDatabaseException("Creating tables error", e);
+        }
+    }
+
+    public static void deleteTables() throws JdbcDatabaseException {
+        Connection connection;
+        try {
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (SQLException e) {
+            throw new JdbcDatabaseException("connectionError", e);
+        }
+
+        String deleteTable = "Drop Table SudokuBoards";
+        String deleteValues = "Drop Table SudokuValues";
+
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(deleteValues);
+            statement.execute(deleteTable);
+        } catch (SQLException e) {
+            throw new JdbcDatabaseException("Dropping tables error", e);
         }
     }
 }

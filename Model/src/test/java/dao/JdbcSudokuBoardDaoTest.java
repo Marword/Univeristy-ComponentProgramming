@@ -17,6 +17,7 @@ import dao.JdbcSudokuBoardDao;
 
 import static dao.JdbcSudokuBoardDao.createTables;
 
+import static dao.JdbcSudokuBoardDao.deleteTables;
 import static org.junit.jupiter.api.Assertions.*;
 
 class JdbcSudokuBoardDaoTest {
@@ -31,8 +32,9 @@ class JdbcSudokuBoardDaoTest {
 
     @Test
     public void writeReadDbTest() throws IOException {
-        databaseSudokuBoardDao = factory.getDatabaseDao("testBoardName3");
-        //createTables();
+        databaseSudokuBoardDao = factory.getDatabaseDao("testBoardName");
+        deleteTables();
+        createTables();
         databaseSudokuBoardDao.write(sudokuBoard);
         sudokuBoard2 = databaseSudokuBoardDao.read();
 

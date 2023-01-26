@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.exceptions.DaoException;
 import model.exceptions.FileDaoException;
+import model.exceptions.JdbcDatabaseException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import model.BacktrackingSudokuSolver;
